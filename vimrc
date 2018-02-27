@@ -148,8 +148,10 @@ augroup MainGroup
 
     autocmd Filetype js,javascript,jsx,javascript.jsx setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
+    autocmd Filetype markdown setlocal spell
+
     " check if any buffers were changed every time we change buffers
-    au FocusGained,BufEnter * :checktime
+    au FocusGained,BufEnter,CursorHold * :checktime
 augroup end
 
 command! TrimWhitespace :%s/\s\+$//e
