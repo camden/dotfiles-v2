@@ -4,7 +4,7 @@ alias ls='ls -aFG'
 alias vim='mvim -v'
 
 alias Find="rg . | fzf"
-alias vsfind="rg . --line-number --no-heading | fzf | sed 's/\(.*:.*\):.*$/\1/' | xargs code -g"
+alias vsfind="rg . --line-number --no-heading | fzf | sed 's/\([^:]*:[^:]*\):.*$/\1/' | xargs code -g"
 # alias vsfind="rg . --line-number --no-heading | fzf | sed 's/:.*$//' | xargs code -g"
 
 # git stuff
