@@ -4,6 +4,9 @@
 
 call plug#begin('~/.vim/plugged')
 
+" Speed up folding by only folding on save
+Plug 'Konfekt/FastFold'
+
 " highlight code blocks in markdown
 Plug 'jtratner/vim-flavored-markdown'
 
@@ -106,6 +109,9 @@ set wildmenu
 " make the signcolumn transparent
 highlight clear SignColumn
 
+" set fold colors
+highlight Folded ctermbg=None ctermfg=Red
+
 " ----->
 " Key Mappings
 " ----->
@@ -137,21 +143,33 @@ nnoremap k gk
 " Autocmds
 " ----->
 
+" mkview saves folds (and other stuff) before you leave
+" loadview loads views
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave,BufWrite *.* mkview
+  autocmd BufWinEnter *.* loadview
+augroup END
+
+set viewoptions=
+      \folds,
+      \cursor
+
 augroup MainGroup
-    autocmd!
+  autocmd!
 
-    " disable auto commenting (new line after being on line w/ a comment)
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  " disable auto commenting (new line after being on line w/ a comment)
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-    " json indentation
-    autocmd Filetype json setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  " json indentation
+  autocmd Filetype json setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
-    autocmd Filetype js,javascript,jsx,javascript.jsx setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd Filetype js,javascript,jsx,javascript.jsx setlocal shiftwidth=2 tabstop=2 softtabstop=2 fdm=indent foldnestmax=2
 
-    autocmd Filetype markdown setlocal spell
+  autocmd Filetype markdown setlocal spell
 
-    " check if any buffers were changed every time we change buffers
-    au FocusGained,BufEnter,CursorHold * :checktime
+  " check if any buffers were changed every time we change buffers
+  au FocusGained,BufEnter,CursorHold * :checktime
 augroup end
 
 command! TrimWhitespace :%s/\s\+$//e
