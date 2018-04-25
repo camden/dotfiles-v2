@@ -4,8 +4,18 @@ alias ls='ls -aFG'
 alias vim='mvim -v'
 
 alias Find="rg . | fzf"
-alias vsfind="rg . --line-number --no-heading -t js | fzf --delimiter=: --nth 3.. | sed 's/\([^:]*:[^:]*\):.*$/\1/' | xargs code -g"
+alias vsfindnopreview="rg . --line-number --no-heading -t js | fzf --delimiter=: --nth 3.. | sed 's/\([^:]*:[^:]*\):.*$/\1/' | xargs code -g"
 alias vsfindall="rg . --line-number --no-heading | fzf --delimiter=: --nth 3.. | sed 's/\([^:]*:[^:]*\):.*$/\1/' | xargs code -g"
+
+alias vsfind="rg '^\s*(.*)$' --replace '\$1' \
+--line-number --no-heading -t js \
+| fzf \
+--delimiter=: \
+--with-nth 3.. \
+--preview \"echo {} | sed 's/\([^:]*\):[^:]*:.*$/\1/'\" \
+--preview-window down:1 \
+| sed 's/\([^:]*:[^:]*\):.*$/\1/' \
+| xargs code -g"
 
 # git stuff
 alias gc='git commit'
