@@ -10,7 +10,7 @@ general_vsfind () {
 
   rg '^\s*(.*)$' --replace '$1' \
   --line-number --no-heading $filetype_string \
-  | fzf \
+  | fzf -m \
   --delimiter=: \
   --with-nth 3.. \
   --preview "echo {} | sed 's/\([^:]*\):[^:]*:.*$/\1/'" \
@@ -58,4 +58,6 @@ export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
 
-source ~/.bash_prompt
+PATH=$PATH:~/.local/bin
+
+source ~/.prompt
